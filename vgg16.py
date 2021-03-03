@@ -9,7 +9,6 @@ class VGG16(pl.LightningModule):
         super().__init__()
         self.dims = config['img_dims']
         self.learning_rate = config['lr']
-        self.weight_decay = config['wd']
 
         self.save_hyperparameters()
 
@@ -110,10 +109,6 @@ class VGG16(pl.LightningModule):
         return x
 
     def loss_function(self, logits, y):
-        # num_samples = torch.as_tensor(list(samples_per_target.values()))
-        # num_samples = num_samples.type_as(logits)
-        # class_weights = max(samples_per_target.values())/num_samples
-        # return F.cross_entropy(logits, y, weight=class_weights)
         return F.cross_entropy(logits, y)
 
     def training_step(self, train_batch, batch_idx):
@@ -141,4 +136,7 @@ class VGG16(pl.LightningModule):
         self.log('val_acc', val_acc, on_step=True, on_epoch=True)
     
     def configure_optimizers(self):
-        return torch.optim.SGD(self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay)
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer, mode='min', factor=0.2, patience=5, eps=1e-6)
+        return {'optimizer': optimizer, 'lr_scheduler': scheduler, 'monitor': 'val_loss_epoch'}

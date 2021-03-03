@@ -2,7 +2,6 @@ import os
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
-# from pytorch_lightning.callbacks import EarlyStopping
 from pytorch_lightning.callbacks import LearningRateMonitor
 from ray import tune
 from data_module import DataModule
@@ -23,10 +22,9 @@ def main():
         'img_dims': (256, 256),
         'batch_size': 32,
         'lr': 1e-4,
-        'wd': 1e-2,
     }
 
-    model_class = ResNet50
+    model_class = VGG16
     model_name = str(model_class.__name__)
     dm_class = DataModule
 
@@ -36,10 +34,6 @@ def main():
         logger = TensorBoardLogger(
             save_dir=f'{os.getcwd()}/runs', name=model_name)
 
-        # early stopping callback
-        # early_stop_callback = EarlyStopping(
-        #     monitor='val_acc_epoch', mode='max', patience=5)
-
         # learning rate monitor callback
         lr_monitor = LearningRateMonitor(logging_interval='epoch')
 
@@ -47,8 +41,7 @@ def main():
         trainer = pl.Trainer(
             gpus=resources['gpu'],
             logger=logger,
-            max_epochs=30,
-            # callbacks=[early_stop_callback],
+            max_epochs=50,
             callbacks = [lr_monitor],
             precision=16,
         )
@@ -76,7 +69,6 @@ def main():
             'mutations': {
                 'batch_size': [16, 32, 64],
                 'lr': tune.loguniform(1e-4, 1e-1),
-                'wd': tune.loguniform(1e-4, 1e-1),
             },
             'metrics_to_report': {'loss': 'val_loss_epoch', 'accuracy': 'val_acc_epoch'},
 

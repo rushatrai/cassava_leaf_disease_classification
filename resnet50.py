@@ -54,8 +54,7 @@ class ResNet(pl.LightningModule):
     def __init__(self, config, block, layers, image_channels, num_classes):
         super().__init__()
         self.learning_rate = config['lr']
-        # self.weight_decay = config['wd']
-
+        
         self.save_hyperparameters()
 
         self.train_accuracy = pl.metrics.Accuracy()
