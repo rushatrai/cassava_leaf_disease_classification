@@ -118,7 +118,7 @@ The model is quite large with over 750 million parameters but is relatively simp
 
 ## ResNet50
 The ResNet family of networks was proposed by Kaiming He et al. in the paper "Deep Residual Learning for Image Recognition." The paper aimed to solve the problem of the vanishing gradient that tanks performance when trying to create very deep neural networks to map higher level image features. It does this by introducing the concept of a "skip connection", which allows gradients to flow directly backwards from later layers to initial filters.
-| ![](https://miro.medium.com/max/750/1*kBlZtheCjJiA3F1e0IurCw.png) | 
+| <img src="https://miro.medium.com/max/750/1*kBlZtheCjJiA3F1e0IurCw.png" width="250" height="600"/> | 
 |:--:| 
 | *Architecture of ResNet-34 with a comparison to VGG-19* |
 
