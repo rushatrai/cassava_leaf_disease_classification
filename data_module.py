@@ -22,13 +22,7 @@ class DataModule(pl.LightningDataModule):
 
         full_train_set = ImageFolder(
             root='/mnt/vol_b/datasets/cassava-leaf-disease-classification/train_images_sorted', transform=transform)
-
-        # samples_targets = torch.unique(
-        #     torch.as_tensor(full_train_set.targets), return_counts=True)
-        # global samples_per_target
-        # samples_per_target = {int(label): int(
-        #     num_samples) for label, num_samples in zip(samples_targets[0], samples_targets[1])}
-
+            
         val_pct = 0.2
         train_size = int((1-val_pct)*len(full_train_set))
         val_size = len(full_train_set) - train_size

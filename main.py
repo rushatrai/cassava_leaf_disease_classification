@@ -7,6 +7,7 @@ from ray import tune
 from data_module import DataModule
 from vgg16 import VGG16
 from resnet50 import ResNet50
+from efficientnetb4 import EFficientNetB4
 from population_based_training import run_pbt
 
 
@@ -24,7 +25,7 @@ def main():
         'lr': 1e-4,
     }
 
-    model_class = VGG16
+    model_class = EFficientNetB4
     model_name = str(model_class.__name__)
     dm_class = DataModule
 
