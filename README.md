@@ -87,9 +87,14 @@ The data was augmented before being sent to the network to improve robustness. T
 4. Random rotation of up to 30 degrees
 5. Normalization with a mean and std of 0.5 across all channels
 
-Sample augmentation of a single image:
-
-
+Sample augmentation of an image:
+| Transform | Image |
+| --------- | ----- |
+| Image resize | ![](sample_images/sample_augment/img_ver0.png) | 
+| Horizontal flip (p=0.2) | ![](sample_images/sample_augment/img_ver1.png) |
+| Vertical flip (p=0.2) | ![](sample_images/sample_augment/img_ver2.png) |
+| Rotation (degrees<=30) | ![](sample_images/sample_augment/img_ver3.png) |
+| Normalization (mean=(0.5,0.5,0.5),std=(0.5,0.5,0.5)) | ![](sample_images/sample_augment/img_ver4.png) |
 
 # Model architectures
 This section includes an outline of each architecture and their implementations. Some details to keep in mind while reading:
