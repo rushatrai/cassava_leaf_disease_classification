@@ -201,5 +201,5 @@ class EfficientNet(pl.LightningModule):
         return {'optimizer': optimizer, 'lr_scheduler': scheduler, 'monitor': 'val_loss_epoch'}
 
 
-def EFficientNetB4(config, version='b4', num_classes=5):
+def EfficientNetB4(config, version='b4', num_classes=5):
     return EfficientNet(config, version=version, num_classes=num_classes)

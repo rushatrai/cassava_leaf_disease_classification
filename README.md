@@ -8,15 +8,17 @@
   - [Augmentations](#augmentations)
 - [Model architectures](#model-architectures)
   - [VGG-16](#vgg-16)
-  - [ResNet50](#resnet50)
+  - [ResNet-50](#resnet-50)
+  - [EfficientNet-B4](#efficientnet-b4)
 - [Metrics](#metrics)
+  - [Average Train Loss](#average-train-loss)
 - [Conclusion](#conclusion)
   - [Possible further improvements](#possible-further-improvements)
   - [Citations](#citations)
 
 # Introduction
 ## Project overview
-A from-scratch implementation and comparison of state-of-the-art (SOTA) Convolutional Neural Network (CNN) architectures on the problem of identifying diseases on Cassava leaves. My goal with this project is to implement these top-performing architectures from scratch, on a dataset that is not ImageNet, and study their workings to understand why they have been able to achieve SOTA.
+A from-scratch implementation and comparison of state-of-the-art (SOTA) Convolutional Neural Network (CNN) architectures on the problem of identifying diseases on Cassava leaves. My goal with this project is to implement these top-performing architectures from scratch to classify the disease/condition of cassava plants, and to learn why these architectures were able to achieve SOTA.
 
 The problem description (as found on the [Kaggle competition page](https://www.kaggle.com/c/cassava-leaf-disease-classification/overview)) is as follows:
 
@@ -90,11 +92,11 @@ The data was augmented before being sent to the network to improve robustness. T
 Sample augmentation of an image:
 | Transform | Image |
 | --------- | ----- |
-| Image resize | ![](sample_images/sample_augment/img_ver0.png) | 
+| Image resize (256x256) | ![](sample_images/sample_augment/img_ver0.png) | 
 | Horizontal flip (p=0.2) | ![](sample_images/sample_augment/img_ver1.png) |
 | Vertical flip (p=0.2) | ![](sample_images/sample_augment/img_ver2.png) |
 | Rotation (degrees<=30) | ![](sample_images/sample_augment/img_ver3.png) |
-| Normalization (mean=(0.5,0.5,0.5),std=(0.5,0.5,0.5)) | ![](sample_images/sample_augment/img_ver4.png) |
+| Normalization (mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]) | ![](sample_images/sample_augment/img_ver4.png) |
 
 # Model architectures
 This section includes an outline of each architecture and their implementations. Some details to keep in mind while reading:
@@ -121,8 +123,8 @@ For our use case, the number of classes has been changed to 5 (corresponding to 
 
 The model is quite large with over 750 million parameters but is relatively simple to implement.
 
-## ResNet50
-The ResNet family of networks was proposed by Kaiming He et al. in the paper "Deep Residual Learning for Image Recognition." The paper aimed to solve the problem of the vanishing gradient that tanks performance when trying to create very deep neural networks to map higher level image features. It does this by introducing the concept of a "skip connection", which allows gradients to flow directly backwards from later layers to initial filters.
+## ResNet-50
+The ResNet family of networks was proposed by Kaiming He et al. in the paper "Deep Residual Learning for Image Recognition." The paper aimed to solve the problem of the vanishing gradient that tanks performance when trying to create very deep neural networks to map higher level image features. It does this by introducing the concept of a "skip connection", which allows gradients to flow directly backwards from later layers to initial filters. The skip connection allows the creation of well-performing high-depth networks, and in this way it was able to achieve SOTA.
 | <img src="https://miro.medium.com/max/750/1*kBlZtheCjJiA3F1e0IurCw.png" width="250" height="600"/> | 
 |:--:| 
 | *Architecture of ResNet-34 with a comparison to VGG-19* |
@@ -130,15 +132,39 @@ The ResNet family of networks was proposed by Kaiming He et al. in the paper "De
 Once again, the number of classes in our case has been changed to 5 (ResNet was also trained on ImageNet). The version implemented here is ResNet-50, the configuration with 50 layers.
 | ![](https://miro.medium.com/max/1050/1*I2557MCaFdNUm4q9TfvOpw.png) | 
 |:--:| 
-| *Resnet architectures* |
+| *Resnet architectures.* |
+
+## EfficientNet-B4
+The EfficientNet family of networks was proposed by Mingxing Tan et al. in the paper "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks." The paper introduces a scaling method called the "compound coefficient" to uniformly scale the depth/width/resolution of neural network models, unlike conventional practice that arbitrarily scales these factors. The compound scaling method is justified by the intuition that if the input image is bigger, then the network needs more layers to increase the receptive field and more channels to capture more fine-grained patterns on the bigger image.
+
+| ![](https://paperswithcode.com/media/methods/Screen_Shot_2020-06-06_at_10.45.54_PM.png) | 
+|:--:| 
+| *Concept of model scaling.* |
+
+The EfficientNet family are networks built based on this compound coefficient. The version implemented here is EfficientNet-B1.
+
+| ![](https://miro.medium.com/max/1050/1*OpvSpqMP61IO_9cp4mAXnA.png) | 
+|:--:| 
+| *EfficientNet-B0 baseline network.* |
+
+| ![](https://user-images.githubusercontent.com/527241/59408025-4b176e80-8db3-11e9-98ad-36c7860c9116.png) | 
+|:--:| 
+| *Scaling factor for other EfficientNets.* |
+
 
 # Metrics
-This section includes a report on each model's peformance on the train set and validation set along with monitored hyperparameters. Some details to keep in mind while reading through:
+This section includes a report on each model's peformance on the train set and validation sets. Some details to keep in mind while reading through:
 * The validation set is defined as a random slice that contains 20% of the train set.
 * Loss refers to the aforementioned Cross Entropy Loss of the model.
+* Each network was trained for 50 epochs.
+* Initial learning rate for each network was 1e-4.
+* Batch size for each network was 32.
+
+## Average Train Loss
+
 
 # Conclusion
-I'm quite satisfied with the outcome of this for a learner's project. The 50+ hours invested have paid off significantly, leaving me with a better understanding of top-peforming computer vision architectures and how they were able to improve SOTA.
+Somewhat surprisingly, all three models show similar performance on this problem set. Perhaps that tells us something about the label noise or the image contents themselves. Better results have been achieved on this dataset, but most incorporate a pretrained MobileNet from MakAI which has possibly already seen the test set. With that being said, as always, there is much room for improvement here.
 
 ## Possible further improvements
 Improvements that I thought about implementing but couldn't due to time constraints.
