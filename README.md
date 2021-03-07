@@ -11,8 +11,12 @@
   - [ResNet-50](#resnet-50)
   - [EfficientNet-B4](#efficientnet-b4)
 - [Metrics](#metrics)
-  - [Average Train Loss](#average-train-loss)
-- [Conclusion](#conclusion)
+  - [Average Training Loss](#average-training-loss)
+  - [Average Training Accuracy](#average-training-accuracy)
+  - [Average Validation Loss](#average-validation-loss)
+  - [Average Validation Accuracy](#average-validation-accuracy)
+  - [Learning Rate Curve](#learning-rate-curve)
+- [Concluding notes](#concluding-notes)
   - [Possible further improvements](#possible-further-improvements)
   - [Citations](#citations)
 
@@ -141,7 +145,7 @@ The EfficientNet family of networks was proposed by Mingxing Tan et al. in the p
 |:--:| 
 | *Concept of model scaling.* |
 
-The EfficientNet family are networks built based on this compound coefficient. The version implemented here is EfficientNet-B1.
+The EfficientNet family are networks built based on this compound coefficient. The version implemented here is EfficientNet-B4.
 
 | ![](https://miro.medium.com/max/1050/1*OpvSpqMP61IO_9cp4mAXnA.png) | 
 |:--:| 
@@ -159,12 +163,29 @@ This section includes a report on each model's peformance on the train set and v
 * Each network was trained for 50 epochs.
 * Initial learning rate for each network was 1e-4.
 * Batch size for each network was 32.
+* Pink: EfficientNet, Blue: ResNet, Cyan: VGG.
+ 
+## Average Training Loss
+![](plots/train_loss_epoch.svg)
 
-## Average Train Loss
+## Average Training Accuracy
+![](plots/train_acc_epoch.svg)
 
+## Average Validation Loss
+![](plots/val_acc_epoch.svg)
 
-# Conclusion
-Somewhat surprisingly, all three models show similar performance on this problem set. Perhaps that tells us something about the label noise or the image contents themselves. Better results have been achieved on this dataset, but most incorporate a pretrained MobileNet from MakAI which has possibly already seen the test set. With that being said, as always, there is much room for improvement here.
+## Average Validation Accuracy
+![](plots/val_loss_epoch.svg)
+
+## Learning Rate Curve
+![](plots/lr-Adam.svg)
+
+# Concluding notes
+Somewhat surprisingly, VGG-16 takes the crown across all metrics. The likely explanation is the number of epochs- with a greater number of epochs the deeper networks should be able to show better perfomance. EfficientNet did not even approach a loss plateau to warrant an adjustment in its learning rate.
+
+It is worth noting that the three models show similar performance, which might tell us something about the label noise or quality of images.
+
+Better results have been achieved by others on this dataset, but most popular solutions incorporate a pretrained MobileNet from MakAI that has possibly already seen the test set, which wouldn't be a fair comparison. With that being said, there is always room for improvement.
 
 ## Possible further improvements
 Improvements that I thought about implementing but couldn't due to time constraints.
