@@ -172,10 +172,10 @@ This section includes a report on each model's peformance on the train set and v
 ![](plots/train_acc_epoch.svg)
 
 ## Average Validation Loss
-![](plots/val_acc_epoch.svg)
+![](plots/val_loss_epoch.svg)
 
 ## Average Validation Accuracy
-![](plots/val_loss_epoch.svg)
+![](plots/val_acc_epoch.svg)
 
 ## Learning Rate Curve
 ![](plots/lr-Adam.svg)
